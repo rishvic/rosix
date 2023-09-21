@@ -16,28 +16,28 @@
 
 use std::io::{BufRead, BufReader, Read};
 
-pub struct Scanner<T>
+pub struct TokenIterator<T>
 where
     T: BufRead,
 {
     input: T,
 }
 
-impl<R> Scanner<BufReader<R>>
+impl<R> TokenIterator<BufReader<R>>
 where
     R: Read,
 {
     pub fn from_reader(reader: R) -> Self {
         let input = BufReader::new(reader);
-        Scanner { input }
+        TokenIterator { input }
     }
 }
 
-impl<T> Scanner<T>
+impl<T> TokenIterator<T>
 where
     T: BufRead,
 {
     pub fn from_bufreader(buf_reader: T) -> Self {
-        Scanner { input: buf_reader }
+        TokenIterator { input: buf_reader }
     }
 }

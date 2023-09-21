@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-pub mod scanner;
+pub mod iterator;
 pub mod tokens;
 
-pub use scanner::Scanner;
+pub use iterator::TokenIterator;
