@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+use super::tokens::Token;
 use std::io::{BufRead, BufReader, Read};
 
 pub struct TokenIterator<T>
@@ -39,5 +40,16 @@ where
 {
     pub fn from_bufreader(buf_reader: T) -> Self {
         TokenIterator { input: buf_reader }
+    }
+}
+
+impl<T> Iterator for TokenIterator<T>
+where
+    T: BufRead,
+{
+    type Item = Token;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        None
     }
 }
