@@ -17,4 +17,4 @@
 pub mod iterator;
 pub mod tokens;
 
-pub use iterator::TokenIterator;
+pub use iterator::TokenStreamer;

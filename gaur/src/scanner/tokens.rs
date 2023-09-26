@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+use std::borrow::Cow;
+
 use strum::EnumIter;
 
 #[derive(Debug, Clone, Copy, EnumIter)]
@@ -100,9 +102,9 @@ impl TokenType {
 }
 
 #[derive(Debug, Clone)]
-pub struct Token {
+pub struct Token<'a> {
     token_type: TokenType,
-    text: String,
+    text: Cow<'a, [u8]>,
 }
 
 #[cfg(test)]

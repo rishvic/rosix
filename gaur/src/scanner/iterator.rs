@@ -17,39 +17,32 @@
 use super::tokens::Token;
 use std::io::{BufRead, BufReader, Read};
 
-pub struct TokenIterator<T>
+pub struct TokenStreamer<T>
 where
     T: BufRead,
 {
     input: T,
 }
 
-impl<R> TokenIterator<BufReader<R>>
+impl<R> TokenStreamer<BufReader<R>>
 where
     R: Read,
 {
     pub fn from_reader(reader: R) -> Self {
         let input = BufReader::new(reader);
-        TokenIterator { input }
+        TokenStreamer { input }
     }
 }
 
-impl<T> TokenIterator<T>
+impl<T> TokenStreamer<T>
 where
     T: BufRead,
 {
     pub fn from_bufreader(buf_reader: T) -> Self {
-        TokenIterator { input: buf_reader }
+        TokenStreamer { input: buf_reader }
     }
-}
 
-impl<T> Iterator for TokenIterator<T>
-where
-    T: BufRead,
-{
-    type Item = Token;
-
-    fn next(&mut self) -> Option<Self::Item> {
+    pub fn next_token<'a>(&'a mut self) -> Option<Token<'a>> {
         None
     }
 }
