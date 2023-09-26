@@ -7,3 +7,4 @@ license = "Apache-2.0"
 [dependencies]
 regex-automata = "0.3.8"
 strum = { version = "0.25.0", features = ["derive"] }
+thiserror = "1.0.48"

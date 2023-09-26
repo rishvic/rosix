@@ -15,13 +15,21 @@
  */
 
 use super::tokens::Token;
-use std::io::{BufRead, BufReader, Read};
+use std::io::{BufRead, BufReader, Error as IoError, Read};
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+pub enum TokenError {
+    #[error("buffer read failed")]
+    Io(#[from] IoError),
+}
 
 pub struct TokenStreamer<T>
 where
     T: BufRead,
 {
     input: T,
+    status: Result<(), TokenError>,
 }
 
 impl<R> TokenStreamer<BufReader<R>>
@@ -30,8 +38,17 @@ where
 {
     pub fn from_reader(reader: R) -> Self {
         let input = BufReader::new(reader);
-        TokenStreamer { input }
+        TokenStreamer {
+            input,
+            status: Ok(()),
+        }
     }
+}
+
+pub enum TokenOutput<'a> {
+    Token(Token<'a>),
+    Eof,
+    Err(TokenError),
 }
 
 impl<T> TokenStreamer<T>
@@ -39,10 +56,13 @@ where
     T: BufRead,
 {
     pub fn from_bufreader(buf_reader: T) -> Self {
-        TokenStreamer { input: buf_reader }
+        TokenStreamer {
+            input: buf_reader,
+            status: Ok(()),
+        }
     }
 
-    pub fn next_token<'a>(&'a mut self) -> Option<Token<'a>> {
-        None
+    pub fn next_token<'a>(&'a mut self) -> TokenOutput<'a> {
+        TokenOutput::Eof
     }
 }
